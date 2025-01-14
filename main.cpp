@@ -2,6 +2,7 @@
 #include <string>
 #include <vector>
 #include <algorithm>
+#include <iterator>
 using namespace std;
 
 // Movie class definition
@@ -97,6 +98,36 @@ void binarySearch(vector<Movie> &database, const string &criteria, int year = 0,
         {
             cout << "No movies found with rating: " << rating << endl;
         }
+    }
+}
+
+void bubblesort(vector<Movie> &database)
+{
+    for (int i = 0; i < database.size(); i++)
+    {
+        for (int j = 0; j < database.size() - i - 1; j++)
+        {
+            if (database[j].rating < database[j + 1].rating)
+            {
+                swap(database[j], database[j + 1]);
+            }
+        }
+    }
+}
+
+void selectionsort(vector<Movie> &database)
+{
+    for (int i = 0; i < database.size(); i++)
+    {
+        int max = i;
+        for (int j = i + 1; j < database.size(); j++)
+        {
+            if (database[j].rating > database[max].rating)
+            {
+                max = j;
+            }
+        }
+        swap(database[i], database[max]);
     }
 }
 
@@ -207,9 +238,12 @@ void menu(vector<Movie> &database)
         cout << "6. View All Movies\n";
         cout << "7. Search by Genre\n";
         cout << "8. Search by Director\n";
-        cout << "9. Exit\n";
+        cout << "9. Sort by Rating (Bubble Sort)\n";
+        cout << "10. Sort by Rating (Selection Sort)\n";
+        cout << "11. Exit\n";
         cout << "Enter your choice: ";
         cin >> choice;
+        cin.ignore(); // Ignore the newline character left in the input buffer
 
         switch (choice)
         {
@@ -272,12 +306,22 @@ void menu(vector<Movie> &database)
             break;
         }
         case 9:
+            bubblesort(database);
+            cout << "Movies sorted by rating (Bubble Sort)!" << endl;
+            viewAllMovies(database);
+            break;
+        case 10:
+            cout << "Movies sorted by rating (Selection Sort)!" << endl;
+            viewAllMovies(database);
+            cout << "Movies sorted by rating (Selection Sort)!" << endl;
+            break;
+        case 11:
             cout << "Exiting..." << endl;
             break;
         default:
             cout << "Invalid choice. Please try again." << endl;
         }
-    } while (choice != 9);
+    } while (choice != 11);
 }
 
 int main()
@@ -287,19 +331,24 @@ int main()
     // Adding more movies to the database
     database.push_back(Movie("The Shawshank Redemption", 1994, "Frank Darabont", {"Tim Robbins", "Morgan Freeman", "Bob Gunton"}, "Drama", 9.3, 142));
     database.push_back(Movie("The Godfather", 1972, "Francis Ford Coppola", {"Marlon Brando", "Al Pacino", "James Caan"}, "Crime", 9.2, 175));
-    database.push_back(Movie("The Dark Knight", 2008, "Christopher Nolan", {"Christian Bale", "Heath Ledger", "Aaron Eckhart"}, "Action", 9.0, 152));
-    database.push_back(Movie("Pulp Fiction", 1994, "Quentin Tarantino", {"John Travolta", "Uma Thurman", "Samuel L. Jackson"}, "Crime", 8.9, 154));
+    database.push_back(Movie("The Dark Knight", 2008, "Christopher Nolan", {"Christian Bale", "Heath Ledger", "Aaron Eckhart"}, "Action", 8.9, 152));
+    database.push_back(Movie("Pulp Fiction", 1994, "Quentin Tarantino", {"John Travolta", "Uma Thurman", "Samuel L. Jackson"}, "Crime", 8.5, 154));
     database.push_back(Movie("Schindler's List", 1993, "Steven Spielberg", {"Liam Neeson", "Ralph Fiennes", "Ben Kingsley"}, "Biography", 9.0, 195));
-    database.push_back(Movie("The Lord of the Rings: The Return of the King", 2003, "Peter Jackson", {"Elijah Wood", "Viggo Mortensen", "Ian McKellen"}, "Adventure", 9.0, 201));
+    database.push_back(Movie("The Lord of the Rings: The Return of the King", 2003, "Peter Jackson", {"Elijah Wood", "Viggo Mortensen", "Ian McKellen"}, "Adventure", 8.9, 201));
     database.push_back(Movie("Inception", 2010, "Christopher Nolan", {"Leonardo DiCaprio", "Joseph Gordon-Levitt", "Elliot Page"}, "Sci-Fi", 8.8, 148));
-    database.push_back(Movie("Fight Club", 1999, "David Fincher", {"Brad Pitt", "Edward Norton", "Helena Bonham Carter"}, "Drama", 8.8, 139));
-    database.push_back(Movie("Forrest Gump", 1994, "Robert Zemeckis", {"Tom Hanks", "Robin Wright", "Gary Sinise"}, "Drama", 8.8, 142));
+    database.push_back(Movie("Fight Club", 1999, "David Fincher", {"Brad Pitt", "Edward Norton", "Helena Bonham Carter"}, "Drama", 8.7, 139));
+    database.push_back(Movie("Forrest Gump", 1994, "Robert Zemeckis", {"Tom Hanks", "Robin Wright", "Gary Sinise"}, "Drama", 8.6, 142));
     database.push_back(Movie("The Matrix", 1999, "Lana Wachowski, Lilly Wachowski", {"Keanu Reeves", "Laurence Fishburne", "Carrie-Anne Moss"}, "Sci-Fi", 8.7, 136));
-    database.push_back(Movie("Goodfellas", 1990, "Martin Scorsese", {"Robert De Niro", "Ray Liotta", "Joe Pesci"}, "Crime", 8.7, 145));
-    database.push_back(Movie("The Empire Strikes Back", 1980, "Irvin Kershner", {"Mark Hamill", "Harrison Ford", "Carrie Fisher"}, "Action", 8.7, 124));
-    database.push_back(Movie("Interstellar", 2014, "Christopher Nolan", {"Matthew McConaughey", "Anne Hathaway", "Jessica Chastain"}, "Adventure", 8.6, 169));
+    database.push_back(Movie("Goodfellas", 1990, "Martin Scorsese", {"Robert De Niro", "Ray Liotta", "Joe Pesci"}, "Crime", 8.5, 145));
+    database.push_back(Movie("The Empire Strikes Back", 1980, "Irvin Kershner", {"Mark Hamill", "Harrison Ford", "Carrie Fisher"}, "Action", 8.6, 124));
+    database.push_back(Movie("Interstellar", 2014, "Christopher Nolan", {"Matthew McConaughey", "Anne Hathaway", "Jessica Chastain"}, "Adventure", 8.9, 169));
     database.push_back(Movie("Se7en", 1995, "David Fincher", {"Brad Pitt", "Morgan Freeman", "Gwyneth Paltrow"}, "Crime", 8.6, 127));
-    database.push_back(Movie("The Silence of the Lambs", 1991, "Jonathan Demme", {"Jodie Foster", "Anthony Hopkins", "Scott Glenn"}, "Thriller", 8.6, 118));
+    database.push_back(Movie("The Silence of the Lambs", 1991, "Jonathan Demme", {"Jodie Foster", "Anthony Hopkins", "Scott Glenn"}, "Thriller", 8.4, 118));
+    database.push_back(Movie("Gladiator", 2000, "Ridley Scott", {"Russell Crowe", "Joaquin Phoenix", "Connie Nielsen"}, "Action", 8.5, 155));
+    database.push_back(Movie("The Green Mile", 1999, "Frank Darabont", {"Tom Hanks", "Michael Clarke Duncan", "David Morse"}, "Drama", 8.6, 189));
+    database.push_back(Movie("Braveheart", 1995, "Mel Gibson", {"Mel Gibson", "Sophie Marceau", "Patrick McGoohan"}, "Biography", 8.3, 178));
+    database.push_back(Movie("The Lion King", 1994, "Roger Allers, Rob Minkoff", {"Matthew Broderick", "Jeremy Irons", "James Earl Jones"}, "Animation", 8.5, 88));
+    database.push_back(Movie("The Prestige", 2006, "Christopher Nolan", {"Christian Bale", "Hugh Jackman", "Scarlett Johansson"}, "Drama", 8.5, 130));
 
     menu(database);
 
