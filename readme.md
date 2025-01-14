@@ -73,7 +73,6 @@ This project is licensed under the MIT License. See the [LICENSE](LICENSE) file 
 
 If you have any questions, feel free to reach out:
 
-- **Email**: your-email@example.com
 - **GitHub**: [KunjShah95](https://github.com/KunjShah95)
 
 ---
